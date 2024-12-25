@@ -1,0 +1,38 @@
+---------------------------------------Arduino Code---------------------------------
+#include "ThingSpeak.h"
+#include <ESP8266WiFi.h>
+#include "DHT.h"        
+#define DHTTYPE DHT11 
+#define dht_dpin 0
+
+DHT dht(dht_dpin, DHTTYPE);
+
+char ssid[] = "";  
+char pass[] = "";  
+
+int status = WL_IDLE_STATUS;
+WiFiClient  client;
+
+int sensorValue; 
+
+
+unsigned long myChannelNumber = 1769579;
+const char * myWriteAPIKey = "V5W28NS6X93R78IS";
+
+void setup() {
+  WiFi.begin(ssid, pass); 
+  ThingSpeak.begin(client);
+  Serial.begin(9600);
+}
+
+void loop() {
+  sensorValue = analogRead(A0);
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+ 
+  Serial.println("Sensor Value");
+  Serial.println(sensorValue);
+  ThingSpeak.writeField(myChannelNumber, 5, sensorValue, myWriteAPIKey);
+  ThingSpeak.writeField(myChannelNumber, 3, h, myWriteAPIKey);
+  ThingSpeak.writeField(myChannelNumber, 4,t, myWriteAPIKey);
+}
