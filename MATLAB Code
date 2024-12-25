@@ -1,0 +1,29 @@
+% Enter your MATLAB Code below
+
+readChannelID = 1769579;
+% TODO - Replace the [] with the Field ID to read data from:
+fieldID1 = 5;
+% TODO - Replace the [] with the Field ID to read data from:
+
+
+% Channel Read API Key
+% If your channel is private, then enter the read API
+% Key between the '' below:
+readAPIKey = 'N709T4P6VQ1UEU2S';
+
+%% Read Data
+
+% Read first data variable
+data1 = thingSpeakRead(readChannelID, 'Field', fieldID1, 'NumPoints', 30, 'ReadKey', readAPIKey);
+
+
+
+t = rmmissing(data1)
+m = mean(t)
+m1 = max(t)
+m2 = min(t)
+r1 = range(t)
+k = kurtosis(t)
+rm = rms(t)
+variance = var(t)
+sk = skewness(t)
